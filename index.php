@@ -1,3 +1,15 @@
+<?php
+session_start();
+if(isset($_SESSION['user_id'])){
+	if($_SESSION['user_type'] == 2){
+		header('location:children_dashboard.php');
+
+	}
+	else{
+		header('location:task.php');
+	}
+}
+?>
 <!DOCTYPE html>
 <html>
 <title>W3.CSS</title>
@@ -16,7 +28,7 @@
 <p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXwA-w9yu-5UPxQprsGip06FUOoERvrxny8pvBbmv-AuMo98sM" height="200" width="200"></p>
 
 <p>
-<a class="w3-button w3-section w3-teal w3-ripple" style="margin:5px;" href="parent_login.php"> Log in </a><a class="w3-button w3-section w3-teal w3-ripple" href="parent_register.php"> Register </a></p>
+<a class="w3-button w3-section w3-teal w3-ripple" style="margin:5px;" href="children_login.php"> Log in </a><a class="w3-button w3-section w3-teal w3-ripple" href="parent_register.php"> Register </a></p>
 
 </form>
 

@@ -8,6 +8,7 @@ $rs = $crud->getSingleRow($q);
 if($rs){
 $_SESSION['user_id'] = $rs['id'];
 $_SESSION['name'] = $rs['name'];
+$_SESSION['user_type'] = $rs['user_type'];
 $_SESSION['success'] = 'loged in successfull';
 if($rs['user_type'] == 1){
 

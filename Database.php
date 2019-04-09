@@ -60,7 +60,7 @@ class Database extends DbConfig
 			$v .= "'" . $val . "', ";
 		}
 		$query .= "(" . rtrim($k, ', ') . ") VALUES (" . rtrim($v, ', ') . ");";
-	  
+	  	
 		 $result = $this->connection->query($query);
 		
 		if ($result == false) {

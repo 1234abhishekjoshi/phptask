@@ -2,7 +2,7 @@
 session_start();
 require('Database.php');
 $crud =new Database();
-
+$_SESSION['success'] = '';
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,20 +18,25 @@ $crud =new Database();
   margin: 6px 0;
 }
 </style>
-<header class="w3-container w3-teal" style="text-align: center;">
-  <h1><a style="
-  position: absolute;left:30px;top:20px;"><div></div>
-<div></div>
-<div></div></a>Parents Monitoring System</h1>
+<header class="w3-container w3-teal" >
+  <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()" style="position: absolute;top:10px;">☰</button>
+  <h1 style="text-align: center;">Parents Monitoring System</h1>
 </header>
-
+<!-- Sidebar -->
+<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+  <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
+  <a href="javascript:;" class="w3-bar-item w3-button">User :-<?php echo $_SESSION['name']; ?></a>
+  <a href="change_password.php" class="w3-bar-item w3-button">Change Password</a>
+  <a href="logout.php" class="w3-bar-item w3-button">Logout</a>
+</div>
 <div class="w3-container w3-half w3-margin-top" style="margin:auto;float:none;">
 
 <form class="w3-container w3-card-4">
 	<p>
 <label>Name</label>
 <input class="w3-input" type="text" id="taskDetail" style="width:90%" required placeholder="write a task"><button class="w3-button w3-section w3-teal w3-ripple" type="button" style="position: relative;float: right;bottom:53px;"  onclick="addTask()"> ADD </button></p>
-<ul id="task">
+<table id="task" style="width:90%" class="w3-table">
+  <tr><th>Description</th><th>Answers</th><th>status</th><th>Action</th></tr>
 	<?php 
 		$q = 'SELECT * FROM tasks WHERE parentId='.$_SESSION['user_id'];
 		$rs = $crud->getAllData($q);
@@ -40,10 +45,10 @@ $crud =new Database();
           		$task_id .= $value['id'].',';
 
 	?>
-	<li><span><?php echo $value['detail']; ?></span><span style="height: 50px;width: 50px;border-radius: 
-	50%;background: red;color:white;padding: 5px;margin:5px;"><a onclick="removeTask(<?php echo $value['id'] ?>)" >-</a></span></li>
+	<tr style="margin:5px;"><td><?php echo $value['detail']; ?></td><td><a href="/task/uploads/<?php echo $value['file_name']; ?>" target="_blank"><?php echo $value['file_name']; ?></td><td><?php if($value['status'] == 2){ echo 'Completed';}else if($value['status'] ==1){ echo 'Assigned';} ?></td><td ><a style="height: 20px;width: 20px;border-radius: 
+  50%;background: red;color:white;padding: 5px;margin:5px;" onclick="removeTask(<?php echo $value['id'] ?>)" >-</a></td></tr>
 	<?php }?>
-</ul>
+</table>
 <p><button class="w3-button w3-section w3-teal w3-ripple" type="button" style="float: right;" onclick="document.getElementById('id01').style.display='block'"> SEND </button></p>
 
 </form>
@@ -85,7 +90,7 @@ $crud =new Database();
 
   	function addTask(){
   		var taskDetail = document.getElementById('taskDetail').value;
-  		var node = document.createElement("LI"); 
+  		var node = document.createElement("tr"); 
   		var textnode = document.createTextNode(taskDetail); 
   		node.appendChild(textnode);                              // Append the text to <li>
 		document.getElementById("task").appendChild(node);
@@ -116,6 +121,13 @@ $crud =new Database();
 		alert('task assign successfully');
 		window.location.reload();
   	}
+    function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
   </script>
 </body>
 </html> 
