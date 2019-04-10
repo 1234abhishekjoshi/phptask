@@ -45,7 +45,7 @@ $_SESSION['success'] = '';
           		$task_id .= $value['id'].',';
 
 	?>
-	<tr style="margin:5px;"><td><?php echo $value['detail']; ?></td><td><a href="/task/uploads/<?php echo $value['file_name']; ?>" target="_blank"><?php echo $value['file_name']; ?></td><td><?php if($value['status'] == 2){ echo 'Completed';}else if($value['status'] ==1){ echo 'Assigned';} ?></td><td ><a style="height: 20px;width: 20px;border-radius: 
+	<tr style="margin:5px;"><td><?php echo $value['detail']; ?></td><td><a href="/task/uploads/<?php echo $value['file_name']; ?>" target="_blank"><?php echo $value['file_name']; ?></a></td><td><?php if($value['status'] == 2){ echo 'Completed';}else if($value['status'] ==1){ echo 'Assigned';}else if($value['status'] ==0){ echo 'Scheduled';} ?></td><td ><a style="height: 20px;width: 20px;border-radius: 
   50%;background: red;color:white;padding: 5px;margin:5px;" onclick="removeTask(<?php echo $value['id'] ?>)" >-</a></td></tr>
 	<?php }?>
 </table>
@@ -74,7 +74,7 @@ $_SESSION['success'] = '';
           	<option  value="<?php echo $value['id'] ?>"><?php echo $value['name']; ?></option>
           	<?php }?>
           </select>
-          <button type="button" class="w3-button w3-section w3-teal w3-rippl"  onclick="AssignToChildren()">Schedule a task</button>
+          <button type="button" class="w3-button w3-section w3-teal w3-rippl"  onclick="AssignToChildren()">Assign a task</button>
         </div>
       </form>
 

@@ -33,7 +33,7 @@ $crud =new Database();
 
 
 <table id="task" border="1" class="w3-table">
-	<tr><th>Description</th><th>Upload</th><th>status</th></tr>
+	<tr><th>Description</th><th>Upload</th><th>file</th><th>status</th><th>Mark Completed</th></tr>
 	<?php 
 		$q = 'SELECT * FROM tasks WHERE childrenId='.$_SESSION['user_id'];
 		$rs = $crud->getAllData($q);
@@ -42,15 +42,16 @@ $crud =new Database();
           	$task_id .= $value['id'].',';	
 
 	?>
-	<tr><td><?php echo $value['detail']; ?></td><td><form method="post" id="<?php echo $key; ?>" action="assignment_upload.php"  enctype="multipart/form-data"><input type="file" name="image" onchange="submitForm(<?php echo $key; ?>)" accept="pdf,png"><input type="hidden" value="<?php echo $value['id']; ?>" name="id"></form></td><td><?php if($value['status'] == 2){ echo '<span style="background-color:#16ea16;color:white;padding:10px;border-radius:50%;">✓</span>Completed';}else if($value['status'] ==1){ echo 'Assigned';} ?></td></tr>
+	<tr><td><?php echo $value['detail']; ?></td><td><form method="post" id="<?php echo $key; ?>" action="assignment_upload.php"  enctype="multipart/form-data"><input type="file" name="image" onchange="submitForm(<?php echo $key; ?>)" accept="pdf,png"><input type="hidden" value="<?php echo $value['id']; ?>" name="id"></form></td><td><a href="/task/uploads/<?php echo $value['file_name']; ?>" target="_blank"><?php echo $value['file_name']; ?></a></td><td><?php if($value['status'] == 2){ echo 'Completed';}else if($value['status'] ==1){ echo 'Assigned';} else if($value['status'] ==0){ echo 'Scheduled';}?></td><td><input type="checkbox" name="task_id[]" class="chbox" id="chk-<?php echo $value['id']; ?>" onclick="getValue(<?php echo $value['id'];?>)" value="<?php echo $value['id'];?>" <?php if($value['status'] == 2){ echo 'checked=checked';} ?>></td></tr>
 	<?php }?>
 </table>
 <p>
-	<form method="post" id="frm" action="change_status.php"><input type="hidden" name="task_id" value="<?php echo rtrim($task_id,','); ?>">
+	<form method="post" id="frm" action="change_status.php"><input type="hidden" id="task_id" name="task_id" value="">
 <button class="w3-button w3-section w3-teal w3-ripple" type="submit" style="text-align: center;"> DONE </button></form></p>
 
 </div>
 <script type="text/javascript">
+	var task_id =[];
 	function submitForm(id){
 		document.getElementById(id).submit();
 	}
@@ -60,6 +61,22 @@ $crud =new Database();
 
 function w3_close() {
   document.getElementById("mySidebar").style.display = "none";
+}
+function getValue(val){
+	var checkedValue = document.getElementById("chk-"+val).checked;
+	if(checkedValue == true){
+	task_id.push(val);
+	document.getElementById('task_id').value = task_id;
+	}
+	else{
+		for( var i = 0; i < task_id.length; i++){ 
+   if ( task_id[i] === val) {
+     task_id.splice(i, 1); 
+   }
+	}
+	document.getElementById('task_id').value = task_id;
+
+	}
 }
 </script>
   
